@@ -183,7 +183,10 @@ class MailjetController extends Controller {
 
     private function getMessageStats($filters = []) {
         try {
-            $params = ['Limit' => 50];
+            $params = [
+                'Limit' => 50,
+                'ShowSubject' => true  // Mostra l'oggetto del messaggio
+            ];
 
             // Aggiungi filtri di data se presenti
             if (isset($filters['from_timestamp']) && $filters['from_timestamp']) {
@@ -316,7 +319,8 @@ class MailjetController extends Controller {
             $events = $this->makeRequest('messagesentstatistics', [
                 'FromTS' => $startOfDay,
                 'ToTS' => $endOfDay,
-                'Limit' => 1000
+                'Limit' => 1000,
+                'ShowSubject' => true  // Mostra l'oggetto del messaggio
             ]);
 
             return $events['Data'] ?? [];
@@ -336,7 +340,8 @@ class MailjetController extends Controller {
             $history = $this->makeRequest('messagehistory', [
                 'FromTS' => $startOfDay,
                 'ToTS' => $endOfDay,
-                'Limit' => 1000
+                'Limit' => 1000,
+                'ShowSubject' => true  // Mostra l'oggetto del messaggio
             ]);
 
             return $history['Data'] ?? $messages;
@@ -396,7 +401,8 @@ class MailjetController extends Controller {
             $messages = $this->makeRequest('message', [
                 'FromTS' => $startOfDay,
                 'ToTS' => $endOfDay,
-                'Limit' => 1000  // Aumenta il limite per avere più messaggi
+                'Limit' => 1000,  // Aumenta il limite per avere più messaggi
+                'ShowSubject' => true  // Mostra l'oggetto del messaggio
             ]);
 
             // Arricchisci i messaggi con le informazioni email dei contatti e mittente
